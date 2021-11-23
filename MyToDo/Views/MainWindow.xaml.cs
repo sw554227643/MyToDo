@@ -31,6 +31,8 @@ namespace MyToDo.Views
                 if (this.WindowState == WindowState.Normal) this.WindowState = WindowState.Maximized;
                 else this.WindowState = WindowState.Normal;
             };
+
+            menuBar.SelectionChanged += (s, e) => { drawerhost.IsLeftDrawerOpen = false; };
         }
 
         
