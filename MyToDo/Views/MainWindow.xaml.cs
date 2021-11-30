@@ -1,4 +1,9 @@
-﻿using System.Windows;
+﻿using MyToDo.Common.Event;
+using MyToDo.Extensions;
+using Prism.Events;
+using Prism.Regions;
+using System;
+using System.Windows;
 
 namespace MyToDo.Views
 {
@@ -7,16 +12,12 @@ namespace MyToDo.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private readonly IEventAggregator eventAggregator;
+        private readonly IRegionManager regionManager;
+
+        public MainWindow(IEventAggregator eventAggregator,IRegionManager regionManager)
         {
             InitializeComponent();
-            btnMin.Click += (s, e) => { this.WindowState = WindowState.Minimized; };
-            btnMax.Click += (s, e) =>
-            {
-                if (this.WindowState == WindowState.Maximized) this.WindowState = WindowState.Normal;
-                else this.WindowState = WindowState.Maximized;
-            };
-            btnClose.Click += (s, e) => { this.Close(); };
 
             ColorZone.MouseMove += (s, e) =>
             {
@@ -33,8 +34,39 @@ namespace MyToDo.Views
             };
 
             menuBar.SelectionChanged += (s, e) => { drawerhost.IsLeftDrawerOpen = false; };
+            this.eventAggregator = eventAggregator;
+            this.regionManager = regionManager;
+            //加载事件
+            eventAggregator.GetEvent<StringMessageEvent>().Subscribe(Execute);
+            //加载首页
+            this.Loaded += (s, e) =>
+            {
+                regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("IndexView");
+            };
         }
 
-        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="obj"></param>
+        private void Execute(string obj)
+        {
+            switch (obj)
+            {
+                case "Min":
+                    WindowState = WindowState.Minimized;
+                    break;
+                case "Max":
+                    WindowState = WindowState == WindowState.Normal ? WindowState.Maximized : WindowState.Normal;
+                    break;
+                case "Exit":
+                   // var dialogResult = await dialogHost.Question("温馨提示", "确认退出系统？");
+                    //if (dialogResult.Result != ButtonResult.OK) return;
+                    Application.Current.Shutdown();
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 }

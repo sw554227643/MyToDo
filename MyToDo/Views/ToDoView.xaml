@@ -5,15 +5,163 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:MyToDo.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
-    <Grid>
-        <TextBlock
-            Width="123"
-            Height="100"
-            FontSize="44"
-            Text="ToDa" />
-        <Button />
-    </Grid>
+    <md:DialogHost>
+        <md:DrawerHost IsRightDrawerOpen="{Binding IsRightDrawerOpen}">
+            <md:DrawerHost.RightDrawerContent>
+                <DockPanel
+                    Width="300"
+                    Margin="10,0,0,0"
+                    LastChildFill="False">
+                    <TextBlock
+                        DockPanel.Dock="Top"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Text="添加待办" />
+
+                    <StackPanel
+                        Margin="0,20,0,0"
+                        DockPanel.Dock="Top"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Text="状态：" />
+                        <ComboBox SelectedIndex="0">
+                            <ComboBoxItem>待办</ComboBoxItem>
+                            <ComboBoxItem>已完成</ComboBoxItem>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <TextBox
+                        Margin="0,20,0,0"
+                        md:HintAssist.Hint="请输入代办概要"
+                        DockPanel.Dock="Top" />
+                    <TextBox
+                        Height="100"
+                        Margin="0,20,0,0"
+                        md:HintAssist.Hint="请输入代办内容"
+                        DockPanel.Dock="Top"
+                        TextAlignment="Justify"
+                        TextWrapping="Wrap" />
+                    <Button
+                        Margin="0,20,0,0"
+                        Content="添加到待办"
+                        DockPanel.Dock="Top" />
+
+
+                </DockPanel>
+            </md:DrawerHost.RightDrawerContent>
+
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+
+                <StackPanel
+                    Margin="15,0"
+                    Orientation="Horizontal">
+                    <TextBox
+                        Width="250"
+                        VerticalAlignment="Center"
+                        md:HintAssist.Hint="查找待办事项"
+                        md:TextFieldAssist.HasClearButton="True" />
+                    <TextBlock
+                        Margin="10,0"
+                        VerticalAlignment="Center"
+                        Text="筛选" />
+                    <ComboBox SelectedIndex="0">
+                        <ComboBoxItem>全部</ComboBoxItem>
+                        <ComboBoxItem>待办</ComboBoxItem>
+                        <ComboBoxItem>已完成</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+
+                <Button
+                    HorizontalAlignment="Right"
+                    Command="{Binding AddCommand}"
+                    Content="+ 添加待办" />
+                <ScrollViewer Grid.Row="1">
+                    <ItemsControl
+                        HorizontalAlignment="Center"
+                        ItemsSource="{Binding ToDoDtos}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <md:TransitioningContent OpeningEffect="{md:TransitionEffect Kind=ExpandIn}">
+                                    <Grid
+                                        Width="220"
+                                        MinHeight="180"
+                                        MaxHeight="250"
+                                        Margin="8">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition />
+                                            <RowDefinition />
+                                        </Grid.RowDefinitions>
+
+                                        <md:PopupBox
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Top"
+                                            Panel.ZIndex="1">
+                                            <Button Content="删除" />
+                                        </md:PopupBox>
+                                        <Border
+                                            Grid.RowSpan="2"
+                                            Background="Green"
+                                            CornerRadius="5" />
+                                        <StackPanel Margin="5">
+                                            <TextBlock
+                                                FontSize="22"
+                                                FontWeight="Bold"
+                                                Text="{Binding Title}" />
+                                            <TextBlock
+                                                Grid.Row="1"
+                                                Margin="0,4,0,0"
+                                                Text="{Binding Content}" />
+                                        </StackPanel>
+
+
+                                        <Canvas
+                                            Grid.RowSpan="2"
+                                            ClipToBounds="True">
+                                            <Border
+                                                Canvas.Top="10"
+                                                Canvas.Right="-50"
+                                                Width="120"
+                                                Height="120"
+                                                Background="#FFFFFF"
+                                                CornerRadius="100"
+                                                Opacity="0.1" />
+                                            <Border
+                                                Canvas.Top="80"
+                                                Canvas.Right="-30"
+                                                Width="120"
+                                                Height="120"
+                                                Background="#FFFFFF"
+                                                CornerRadius="100"
+                                                Opacity="0.1" />
+                                        </Canvas>
+
+                                    </Grid>
+                                </md:TransitioningContent>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+            </Grid>
+        </md:DrawerHost>
+
+
+
+    </md:DialogHost>
 </UserControl>

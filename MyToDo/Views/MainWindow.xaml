@@ -6,7 +6,6 @@
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
     xmlns:prism="http://prismlibrary.com/"
-    Title="{Binding Title}"
     Width="1280"
     Height="760"
     prism:ViewModelLocator.AutoWireViewModel="True"
@@ -18,13 +17,11 @@
     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
     TextOptions.TextFormattingMode="Ideal"
     TextOptions.TextRenderingMode="Auto"
+    WindowStartupLocation="CenterScreen"
     WindowStyle="None">
-
-
     <materialDesign:DialogHost
         DialogTheme="Inherit"
-        Identifier="RootDialog"
-        SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
+        Identifier="RootDialog">
 
         <materialDesign:DrawerHost
             x:Name="drawerhost"
@@ -62,8 +59,7 @@
                             x:Name="menuBar"
                             Margin="0,20,0,0"
                             ItemContainerStyle="{StaticResource MyListBoxItemStyle}"
-                            ItemsSource="{Binding MenuBars}"
-                            SelectedIndex="0">
+                            ItemsSource="{Binding MenuBars}">
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="SelectionChanged">
                                     <i:InvokeCommandAction
@@ -157,16 +153,25 @@
                             </Image>
                             <Button
                                 x:Name="btnMin"
+                                Command="{Binding ExecuteCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
                                 Content="━"
-                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                Tag="Min" />
                             <Button
                                 x:Name="btnMax"
+                                Command="{Binding ExecuteCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
                                 Content="☐"
-                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                Tag="Max" />
                             <Button
                                 x:Name="btnClose"
+                                Command="{Binding ExecuteCommand}"
+                                CommandParameter="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Tag}"
                                 Content="✕"
-                                Style="{StaticResource MaterialDesignFlatMidBgButton}" />
+                                Style="{StaticResource MaterialDesignFlatMidBgButton}"
+                                Tag="Exit" />
                         </StackPanel>
 
 

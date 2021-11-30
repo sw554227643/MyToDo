@@ -21,4 +21,7 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\Interfaces\" />
+  </ItemGroup>
 </Project>
