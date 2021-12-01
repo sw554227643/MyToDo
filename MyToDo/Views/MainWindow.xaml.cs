@@ -38,11 +38,11 @@ namespace MyToDo.Views
             this.regionManager = regionManager;
             //加载事件
             eventAggregator.GetEvent<StringMessageEvent>().Subscribe(Execute);
-            //加载首页
-            this.Loaded += (s, e) =>
-            {
-                regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("IndexView");
-            };
+            ////加载首页
+            //this.Loaded += (s, e) =>
+            //{
+            //    regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("IndexView");
+            //};
         }
 
         /// <summary>

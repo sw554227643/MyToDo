@@ -19,11 +19,11 @@ namespace MyToDo.ViewModels
             this.eventAggregator = eventAggregator;
             HomeCommand = new DelegateCommand(Home);
             MenuBars = new ObservableCollection<MenuBar>();
-            CreatMenuBar();
+
             NavigateCommand = new DelegateCommand<MenuBar>(Navigate);
             GoBackCommand = new DelegateCommand(() =>
             {
-                if (journal!= null && journal.CanGoBack)
+                if (journal != null && journal.CanGoBack)
                 {
                     journal.GoBack();
                 }
@@ -35,7 +35,7 @@ namespace MyToDo.ViewModels
                     journal.GoForward();
             });
 
-            
+
             ExecuteCommand = new DelegateCommand<string>((arg) =>
             {
                 //注册事件
@@ -61,7 +61,7 @@ namespace MyToDo.ViewModels
                 journal = back.Context.NavigationService.Journal;
             });
 
-            
+
         }
         public DelegateCommand HomeCommand { get; set; }
         public DelegateCommand<MenuBar> NavigateCommand { get; set; }
@@ -71,7 +71,7 @@ namespace MyToDo.ViewModels
         private ObservableCollection<MenuBar> menuBars;
         private readonly IRegionManager regionManager;
         private readonly IEventAggregator eventAggregator;
-        private  IRegionNavigationJournal journal;
+        private IRegionNavigationJournal journal;
 
 
         public ObservableCollection<MenuBar> MenuBars
@@ -87,6 +87,15 @@ namespace MyToDo.ViewModels
             MenuBars.Add(new MenuBar() { Icon = "NotebookOutline", Title = "待办事项", NameSpace = "ToDoView" });
             MenuBars.Add(new MenuBar() { Icon = "NotebookPlus", Title = "备忘录", NameSpace = "MemoView" });
             MenuBars.Add(new MenuBar() { Icon = "Cog", Title = "设置", NameSpace = "SettingsView" });
+        }
+
+        /// <summary>
+        /// 加载数据 此处用的是Behoaior 加 附加属性 触发
+        /// </summary>
+        public void Load()
+        {
+            CreatMenuBar();
+            regionManager.Regions[PrismManager.MainViewRegionName].RequestNavigate("IndexView");
         }
     }
 }
